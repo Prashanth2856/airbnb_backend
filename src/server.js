@@ -8,7 +8,6 @@ const User = require("./models/user.model");
 const { signup, signin } = require("./controllers/auth.controller");
 const { body, validationResult } = require("express-validator");
 
-const locations = require("./controllers/location.controller");
 
 const app = express();
 app.use(express.json());
@@ -82,9 +81,6 @@ app.post(
   body("first_name")
     .notEmpty()
     .withMessage("first_name is required"),
-  body("last_name")
-    .notEmpty()
-    .withMessage("last_name is required"),
   body("email")
     .notEmpty()
     .withMessage("Email is required")
@@ -144,9 +140,11 @@ app.post(
 
 // app.use("/", signup);
 // app.use("/", signin);
-
+const userController = require("./controllers/user.controller");
+const locations = require("./controllers/location.controller");
 //Routes for Locations controller
 app.use("/hotels", locations);
+app.use("/users", userController);
 
 const start = async () => {
   await connect();
